@@ -1,0 +1,203 @@
+L3 Info – 2025–2026 Projet – Fond. Mathématiques pour l’Aide à la Décision
+Projet : Analyse de la Polarisation
+Le sujet est écrit au féminin générique. On étudie dans ce sujet la question de la polarisation des
+préférences exprimées lors de processus électoraux. On dit qu’une élection est polarisée lorsque l’électorat
+peut être divisé en deux clusters de votantes aux positions idéologiques très distinctes. On cherche donc
+un homomorphisme de (E, R)vers(R,≥), oùEest l’ensemble des élections possibles et Rest une relation
+binaire sur Etelle que xRyssi l’élection xest jugée plus polarisée que l’élection y. Le sujet explore
+différentes manières de définir une telle mesure de la polarisation. On conseille de lire l’intégralité du
+sujet avant de commencer le projet.
+Quelques consignes. Ce travail est à réaliser en trinôme et en utilisant le langage de programmation
+Python. Votre travail devra être rendu sur Moodle pour le 29/03/2026.
+Rendu. Le rendu de votre projet doit comprendre un rapport au format PDF et une archive de votre
+code. On attend bien sûr un code bien organisé et commenté, muni d’un fichier ReadMe. Votre rap-
+port contiendra les réponses ou des explications pour les questions 1, 2, 4, 6, 7, 9, 10, 11, et 15. Vous
+mentionnerez toute source ou site Web qui a été utilisé pour réaliser le projet. Votre rapport contiendra
+également un retour critique et honnête sur votre utilisation des IAs génératives. Vous communiquerez
+1) les différents types et le nombre de prompts utilisés, 2) les retours critiques que vous avez eus sur le
+code et le texte généré, et 3) les avantages et les inconvénients que vous avez identifiés sur l’utilisation de
+ces outils.
+1 Votantes, Candidates, et Bulletins de Vote
+Lors d’une élection, un ensemble de nvotantesV ={v1,...,vn}expriment leurs préférences sur un
+ensemble de mcandidatesC={c1,...,cm}, donnant nbulletins de vote. On supposera que nest m sont
+pairs. On considère deux types de bulletins de vote.
+— Votes par approbations : chaque votante indique les candidates qu’elle approuve. On obtient alors
+pour la votante vi un vecteur avi ∈ {0,1}m, où avi[j]=1ssi vi approuve cj. On noteA={0,1}m
+l’ensemble des votes par approbations possibles. Soit a∈A, on note a le bulletin opposé où
+a[j]=1−a[j],∀j∈{1,...,m}. Enfin, soit a∈Aetπune permutation sur{1,...,m}, on note aπ
+le bulletin où aπ[j]=a[π(j)],∀j∈{1,...,m}, i.e., le vecteur où les indices sont permutés parπ.
+— Votes par ordres totaux : chaque votante indique un rangement sur les candidates, de sa candidate
+la plus préférée à celle la moins préférée. On obtient alors pour la votante vi un ordre total⪰vi
+surC. À tout ordre total⪰vi, on associe une fonction de rang r⪰vi:C→{1,...,m} où r⪰vi(cj)
+désigne la position de la candidate cj dans le classement de la votante vi (e.g., r⪰vi(cj)=1si cj
+est la candidate préférée de vi). On noteL l’ensemble des votes par ordres totaux possibles, ce
+qui peut être vu comme l’ensemble des bijections deC dans{1,...,m}. Soit⪰∈L, on note⪰
+le bulletin opposé où r⪰(c)=m−r⪰(c)+1,∀c∈C. Enfin, soit⪰∈Letπune permutation sur
+C, on note⪰πle bulletin où r⪰π(c)=r⪰(π(c)),∀c∈C, i.e., l’ordre total où les candidates sont
+permutées parπ.
+On nomme profil de l’élection (ou profil pour faire court) l’ensemble des n bulletins de vote exprimés par
+les votantes. Un profil est donc un élément deAnouLn. Soitπune permutation sur{1,...,m}(resp.
+C) et pun profil dansAn(resp.Ln), on note pπle profil où chaque bulletin a∈p(resp.⪰∈p) est
+remplacé paraπ(resp.⪰π). Soitσune permutation sur{1,...,n}on noteσple profil où p[i]est remplacé
+par p[σ(i)]pour tout i∈{1,...,n}. Dit autrement, alors que pπpermute les labels des candidates,σp
+permute les labels des votantes. Enfin, soit k∈N∗on note kple profil de taille n×koùp[i]est remplacé
+parkcopies de p[i].
+On présente désormais deux profils aux niveaux de polarisation opposés.
+— Votes par approbations. Soit a∈A : on note pa le profil consistant en la répétition n fois du
+bulletin a. On note pa,a le profil consistant en la répétition n/2 fois du bulletin a et la répétition
+n/2 fois du bulletin a. Alors que pa est un profil où la polarisation semble minimale, pa,a est un
+profil où la polarisation semble maximale.
+— Votes par ordres totaux. Soit⪰∈L : on note p⪰ le profil consistant en la répétition n fois du
+bulletin⪰. On note p⪰,⪰ le profil consistant en la répétition n/2 fois du bulletin⪰ et la répétition
+n/2 fois du bulletin⪰. Alors que p⪰ est un profil où la polarisation semble minimale, p⪰,⪰ est un
+profil où la polarisation semble maximale
+Question 1. Implémenter une méthode permettant de générer aléatoirement un profil dansAn. Votre méthode
+prendra en paramètre un ou des arguments pour contrôler le niveau de polarisation de l’élection.
+Une élection peu polarisée devra ressembler à un profil pa tandis qu’une élection fortement polarisée
+devra ressembler à un profil pa,a. On vous laisse la liberté de choisir comment générer ces élections
+et comment contrôler d’une certaine façon le niveau de polarisation.
+Question 2. Implémenter une méthode permettant de générer aléatoirement un profil dansLn. Votre méthode
+prendra en paramètre un ou des arguments pour contrôler le niveau de polarisation de l’élection.
+Une élection peu polarisée devra ressembler à un profil p⪰ tandis qu’une élection fortement pola-
+risée devra ressembler à un profil p⪰,⪰. On vous laisse la liberté de choisir comment générer ces
+élections et comment contrôler d’une certaine façon le niveau de polarisation.
+2 Axiomes sur la Polarisation
+On présente désormais des axiomes qu’une mesure de polarisationφdevrait satisfaire.
+Axiome 1 (Régularité). φ(p)∈[0,1]pour chaque p∈An(resp.p∈Ln). De plus, on demande les
+conditions suivantes :
+— φ(p)=0ssi p=pa pour un bulletin a∈A(resp.p=p⪰ pour un bulletin⪰∈L).
+— φ(p)=1ssi p=pa,a pour un bulletin a∈A(resp.p=p⪰,⪰ pour un bulletin⪰∈L).
+Axiome 2 (Neutralité). φ(p)=φ(pπ)pour toute permutationπsur{1,...,m}(resp.C) et tout profil
+p∈An(resp.p∈Ln).
+Axiome 3 (Anonymité). φ(p)=φ(σp)pour toute permutationσsur{1,...,n}et tout profil p∈An
+(resp.p∈Ln).
+Axiome 4 (Invariance par réplication). φ(kp)=φ(p)pour tout profil p∈An(resp.p∈Ln) et entier
+k∈N∗.
+SoitC2 l’ensemble des sous-ensembles deCde taille 2. Étant donné un profil pet{ck,cl}∈C2,
+on note nckcl(p)le nombre de votantes qui préférent ck àcl, i.e., nckcl(p)=|{v|av[k]=1∧av[l]=0}|
+pour des votes par approbations et nckcl(p)=|{v|ck⪰vcl}|pour des votes par ordres totaux. Soit
+dckcl(p)=|nck,cl(p)−ncl,ck(p)|la différence absolue entre le nombre de votantes préférant ck àcl et celles
+préférant cl àck pour le profil p.
+Question 3. Implémenter une méthode permettant de calculer l’ensemble des valeurs{dckcl(p),{ck,cl}∈C2}
+pour un profil p∈An et une méthode permettant de calculer l’ensemble des valeurs{dckcl(p),{ck,cl}∈
+C2}pour un profil p∈Ln.
+L3 Info – 2025–2026 Projet – Fond. Mathématiques pour l’Aide à la Décision
+En inspectant les profils portant uniquement sur deux candidates, on peut avoir l’intuition que la
+polarisation d’un profil sera corrélée aux valeurs dckcl(p)pour{ck,cl}∈C2. Cela nous mène à la mesure
+de polarisationφ2 suivante :
+φ2(p)= X
+{ck,cl}∈C2
+n−dckcl(p)
+n �m
+2.
+Pour{ck,cl}∈C2, n−dckcl(p)est égale à 0 si toutes les votantes ont la même préférence entre les
+candidates ck etcl(polarisation faible), et est égale à n si la moitié des votantes préférent ck etcl et
+l’autre moitié préférent cl etck(polarisation forte).
+Question 4. Quels axiomes sont vérifiés parφ2 ? Si un axiome est vérifié, vous fournirez une preuve. Si un
+axiome n’est pas vérifié, vous fournirez un contre-exemple.
+Question 5. Implémenter une méthode permettant de calculerφ2(p)pour un profil p∈An et une méthode
+permettant de calculerφ2(p)pour un profil p∈Ln.
+Question 6. En utilisant les méthodes des questions 1,2, et 5 tracer l’évolution de la mésureφ2(p)en faisant
+varier “le niveau” de polarisation des instances à partir des arguments choisis aux questions 1 et 2.
+3 Distances et Mesures de Polarisation
+Nous allons désormais étudier d’autres mesures de polarisation basées sur le concept de distance entre
+bulletins de vote. SoitXun ensemble non vide. Une application d:X×X→R+est une distance surX
+si elle vérifie les quatre propriétés suivantes :
+1. Positivité : ∀x,y∈X, d(x,y)≥0,
+2. Séparation : ∀x,y∈X, d(x,y)=0⇐⇒x=y,
+3. Symétrie : ∀x,y∈X, d(x,y)=d(y,x),
+4. et Inégalité triangulaire : ∀x,y,z∈X, d(x,z)≤d(x,y)+d(y,z).
+Les distances permettent de formaliser la notion de dissimilarité entre des objets qui peuvent être de
+natures très distinctes. Nous présentons désormais une distance qui s’applique sur l’ensembleA, et une
+distance qui s’applique sur l’ensembleL.
+La distance de Hamming. Soient avk, avl∈A. La distance de Hamming est définie par : dH(avk,avl)= Pm
+i=1 1avk[i]̸=avl[i] où1avk[i]̸=avl[i]=1si avk[i]̸=avl[i], et 0 sinon. Pour nos votes par approbations, il
+s’agit du nombre de candidates approuvées par l’une des votantes mais pas par l’autre.
+Distance de Spearman. Soient ≺vk et ≺vl deux ordres totaux surC, et rvk, rvl les fonctions de rang
+associées. La distance de Spearman est définie par : dS(≺vk,≺vl)= Pm
+i=1 |rvk(i)−rvl(i)|. Pour nos votes
+par ordres totaux, cette distance agrége les distances de rang des différentes candidates quand on compare
+les rangements des votantes vk etvl.
+Question 7. Montrer que dS et dH sont bien des fonctions de distance.
+Question 8. Implémenter des méthodes permettant de calculer ces distances pour deux bulletins a,a′∈Aou
+pour deux bulletins⪰,⪰′∈L.
+Nous introduisons désormais les deux problèmes d’optimisation suivants.
+— Étant donné un profil de votes p, trouver un bulletin a∈Aqui minimise P
+a′∈p dH(a,a′). Dans
+le cas des préférences par ordres totaux, on remplacera dH par dS. On notera u∗
+1(p)la valeur
+optimale de ce problème. Ce problème consiste à trouver un bulletin de consensus pour l’ensemble
+des votantes. Plus u∗
+1(p)est petit est plus l’ensemble des votantes sont proches de ce consensus
+global.
+L3 Info – 2025–2026 Projet – Fond. Mathématiques pour l’Aide à la Décision
+— Étant donné un profil de votes p, trouver deux bulletins a1, a2∈ Aqui ensemble minimisentP
+a′∈pmin{dH(a1,a′),dH(a2,a′)}. Dans le cas des préférences par ordres totaux, on remplacera
+dH par dS. On notera u∗
+2(p)la valeur optimale de ce problème. Ce problème consiste à trouver un
+bulletin de consensus pour deux clusters de votantes (un consensus par cluster), où chaque votante
+est affectée au cluster dont le bulletin de consensus est le plus proche. Plus u∗
+2(p)est petit est plus
+les votantes de chacun des deux clusters sont proches de leurs consensus respectuctifs.
+Nous introduisons désormais les deux mesures de polarisationφdH etφdS, définies comme suit :
+φdH(p)= 2
+n×m (u∗
+1(p)−u∗
+2(p))etφdS(p)= 4
+n×m2 (u∗
+1(p)−u∗
+2(p)).
+SiφdH(p)est élevée alors les votantes se sentent lointaines d’un consensus global, mais forment des
+ensembles aux votes proches si on les autorisent à former deux clusters. SiφdH(p)est faible, alors le
+fait de faire un ou deux clusters de votantes ne change pas beaucoup la proximité des votantes à leurs
+consensus respectifs. Cela est bien cohérent avec la notion de polarisation.
+Question 9. Pour mieux comprendre les propriétés deφdH etφdS, indiquer quels axiomes sont vérifiés parφdH.
+Question 10. Montrer comment u∗
+1(p)peut être calculée efficacement pour des votes par approbations.
+Question 11. Montrer comment u∗
+1(p)peut être calculée efficacement pour des votes par ordres totaux. Indi-
+cation : regarder le problème de couplage parfait de poids minimum dans un graphe biparti (le
+module python scipy permet de résoudre ce problème d’optimisation).
+Question 12. Implémenter une méthode pour calculer u∗
+1(p)pour des votes par approbations et une méthode
+pour calculer u∗
+1(p)pour des votes par ordres totaux.
+Pour calculer u∗
+2(p), nous utiliserons l’algorithme itératif k-means utilisé pour des tâches de clustering.
+Algorithme 1 : k-means avec k=2 adapté au cas des votes par approbations.
+1 Entrée : (a1,...,an)∈An.
+2 Initialiser deux centroïdes aléatoirement ˜a1, ˜a2∈A. (un centroïde est ici un bulletin de
+consensus)
+3 repeat
+4 Affecter chaque bulletin de vote au cluster dont la distance au centroïde est la plus faible ;
+cluster(ai)=1si dH(ai, ˜a1)≤dH(ai, ˜a2)et cluster(ai)=2sinon, ∀i∈{1,...,n} ;
+5 Trouver le centroïde de chaque cluster ˜a1∈arg mina∈A P
+at:cluster(at)=1 dH(a,at)et
+˜a2∈arg mina∈A P
+at:cluster(at)=2 dH(a,at);
+6 until Tant qu’il y a des changements dans l’affectation des clusters
+7 return P
+at:cluster(at)=1 dH(˜a1,at)+P
+at:cluster(at)=2 dH(˜a2,at)
+Notons que l’étape à la ligne 5 de l’algorithme demande d’utiliser votre réponse à la question 12.
+L’algorithme de k-means converge vers un optimum local. Pour trouver une valeur qui nous l’espérons
+sera souvent proche de l’optimum global, une approche consiste à relancer cette algorithme plusieurs fois.
+La valeur finale retenue sera le résultat minimum obtenu sur tous les lancés. L’algorithme des k-means
+retournera pour nous une estimation de u∗
+2(p)que nous noterons ˜u∗
+2(p).
+Question 13. Implémenter une méthode pour calculer ˜u∗
+2(p)pour des votes par approbations et une méthode
+pour calculer ˜u∗
+2(p)pour des votes par ordres totaux.
+Question 14. Implémenter une méthode pour calculerφdH(p)pour des votes par approbations et une méthode
+pour calculerφdS(p)pour des votes par ordres totaux.
+Question 15. En utilisant les méthodes des questions 1,2, et 14 tracer l’évolution des mésuresφdH(p)= 2
+n×m (u∗
+1(p)−
+˜u∗
+2(p))etφdS(p)= 4
+n×m2 (u∗
+1(p)−˜u∗
+2(p))en faisant varier “le niveau” de polarisation des instances
+comme à la question 6.
