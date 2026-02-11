@@ -124,7 +124,7 @@ def generer_profil_ordres_totaux(n, m, p):
 
         profil.append(copie_ordre_oppose)
     
-    #melanger aléatoiement le profil pour éviter ordre évident qui est tous les identiques puis ensuite tous les opposés
+    #melanger aléatoiement le profil pour eviter ordre évident qui est tous les identiques puis ensuite tous les opposés
     random.shuffle(profil)
     
     return profil
