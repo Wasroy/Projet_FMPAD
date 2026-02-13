@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
-from generations import generer_profil, generer_profil_ordres_totaux
-from calcul_paires import phi2_approbations, phi2_ordres_totaux
+from question1_generer_approbations import generer_profil
+from question2_generer_ordres_totaux import generer_profil_ordres_totaux
+from question5_phi2 import phi2_approbations, phi2_ordres_totaux
 
 
 n = 20 
