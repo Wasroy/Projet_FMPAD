@@ -95,7 +95,7 @@ def u1_etoile_ordres_totaux(profil):
 
     m = len(profil[0])  #nb de candidates
     
-    #-----etape 1: construire la matrice de coûts---
+    #-----etape 1: construire la matrice de coûts---------------------
 
 
     #matrice_cout[i][j] = coût d'assigner le rang i+1 à la candidate j
@@ -121,7 +121,7 @@ def u1_etoile_ordres_totaux(profil):
         
         matrice_cout.append(ligne_couts)
     
-    #-----etape 2: résoudre le couplage parfait de poids minimum---
+    #----etape 2: résoudre le couplage parfait de poids minimum---
 
 
     #algorithme hongrois (celui du sujet on dit hongrois car c'est un mathématicien hongrois qui l'a crée) implémenté dans scipy
@@ -134,7 +134,7 @@ def u1_etoile_ordres_totaux(profil):
     #col_indices[i] = indice de la candidate assignée
     
 
-    #-----étape 3: calculer la valeur optimale----
+    #------étape 3: calculer la valeur optimale---------
     #c'est la somme des coûts du couplage optimal
     #"idx" diminutif de index = indice
 
@@ -151,11 +151,11 @@ def u1_etoile_ordres_totaux(profil):
     
     return optimale
 
-
+"""
 profil_test1 = [[1, 0, 1], [1, 1, 0], [0, 1, 1]]
 print(u1_etoile_approbations(profil_test1))
 print(" ")
 
 profil_test2 = [[1, 2, 3], [3, 1, 2], [2, 3, 1]]
 print(u1_etoile_ordres_totaux(profil_test2))
-print(" ")
+"""
