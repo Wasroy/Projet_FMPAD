@@ -42,17 +42,8 @@ def calculer_differences_approbations(profil):
             for bulletin in profil:
                 if (bulletin[l] == 1) and (bulletin[k] == 0):
                     nb_l_prefere_k += 1
-            
-
-
-            #calculer la difference absolue, on aurait pu utiliser le module math avec abs mais c'est encore plus explicit comme ça
-            if nb_k_prefere_l > nb_l_prefere_k:
-
-                difference = nb_k_prefere_l - nb_l_prefere_k
-
-            else:
-
-                difference = nb_l_prefere_k - nb_k_prefere_l
+        
+            difference = abs(nb_k_prefere_l - nb_l_prefere_k)
             
             differences.append(difference)
     
@@ -99,11 +90,7 @@ def calculer_differences_ordres_totaux(profil):
                 if ordre[l] < ordre[k]:
                     nb_l_prefere_k += 1
             
-            #idem que fct avant on aurait pu comme tt a l'heure utiliser le module math avec abs
-            if nb_k_prefere_l > nb_l_prefere_k:
-                difference = nb_k_prefere_l - nb_l_prefere_k
-            else:
-                difference = nb_l_prefere_k - nb_k_prefere_l
+            difference = abs(nb_k_prefere_l - nb_l_prefere_k)
             
             differences.append(difference)
     
@@ -169,10 +156,51 @@ def phi2_ordres_totaux(profil):
     return phi2
 
 
+def distance_hamming(bulletin1, bulletin2):
+    """
+    fonction qui calcul la distance de Hamming entre deux bulletins de vote par approbations.
+    RETURN : distance de Hamming (nombre de positions où les bulletins diffèrent)
+    """
+    if len(bulletin1) != len(bulletin2): 
+        raise ValueError("Les bulletins doivent avoir la même longueur")
+    
+    distance_total = 0
 
-print("Test phi2 - Approbations - Profil simple avec 3 candidates:")
-print(phi2_approbations([[1, 0, 1], [0, 1, 0], [1, 1, 0]]))
-print(" ")
+    for i in range(len(bulletin1)):
+
+        if bulletin1[i] != bulletin2[i]:
+
+            distance_total += 1
+    
+    return distance_total
+
+print(distance_hamming([1, 0, 1, 0, 1], [0, 1, 1, 0, 1]))  #doit donner 2
+
+
+
+def distance_spearman(ordre1, ordre2):
+    """
+    calcul la distance de Spearman entre deux ordres totaux.
+    RETURN : distance de Spearman = la somme des différences absolues de rangs
+
+    """
+    if len(ordre1) != len(ordre2):
+
+        raise ValueError("les ordres doivent avoir la même longueur")
+    
+    distance_total = 0
+
+    for i in range(len(ordre1)): #on pourrait choisir aussi ordre2 mais idem car meme longueur
+
+        distance_total += abs(ordre1[i] - ordre2[i])
+    
+    return distance_total
+
+
+print(distance_spearman([1, 2, 3, 4], [4, 3, 2, 1]))  #doit donner 8
+
+
+#print(phi2_approbations([[1, 0, 1], [0, 1, 0], [1, 1, 0]]))
 
 """
 #tests pour votes par approbations [GENERER PAR IA]
