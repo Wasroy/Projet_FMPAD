@@ -62,7 +62,7 @@ def phidS_ordres_totaux(profil, nb_relances):
     
     return phidS
 
-
+"""
 print("Test phidH pour un vote par approbation:")
 profil_test1 = [[1, 0, 1], [1, 1, 0], [0, 1, 1], [0, 0, 0], [1, 1, 1]]
 print(phidH_approbations(profil_test1, 7))
@@ -71,3 +71,4 @@ print(" ")
 print("test pour phidS avec bulletins par ordres totaux:")
 profil_test2 = [[1, 2, 3], [3, 1, 2], [2, 3, 1], [3, 2, 1], [1, 3, 2]]
 print(phidS_ordres_totaux(profil_test2, 4))
+"""

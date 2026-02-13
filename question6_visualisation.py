@@ -55,5 +55,5 @@ plt.savefig('visualisation/evolution_phi2.png', dpi=300, bbox_inches='tight')
 #[-------Fin du graphe-----]
 
 
-print("Le graphique a de plus été sauvegardé dans 'visualisation/evolution_phi2.png'")
+print("Le graphique a de plus été sauvegardé dans 'visualisations/evolution_question6_phi2.png'")
 plt.show()
