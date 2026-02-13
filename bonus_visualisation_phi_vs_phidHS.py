@@ -33,11 +33,13 @@ for p in polarisations:
 
 
 #[---debut du graphe---]
+
+#on met des linewidth different et des couleurs distinctes car les courbes peuvent se chevaucher
 plt.figure(figsize=(12, 7))
 plt.plot(polarisations, phi2_approb, 'b-', label='φ2 - Approbations', linewidth=2, linestyle='-')
 plt.plot(polarisations, phi2_ordres, 'r-', label='φ2 - Ordres totaux', linewidth=2, linestyle='-')
-plt.plot(polarisations, phidH_approb, 'b--', label='φdH - Approbations', linewidth=2, linestyle='--')
-plt.plot(polarisations, phidS_ordres, 'r--', label='φdS - Ordres totaux', linewidth=2, linestyle='--')
+plt.plot(polarisations, phidH_approb, 'g--', label='φdH - Approbations', linewidth=1, linestyle='--')
+plt.plot(polarisations, phidS_ordres, 'y--', label='φdS - Ordres totaux', linewidth=1, linestyle='--')
 
 plt.xlabel('nv de polarisation', fontsize=12)
 plt.ylabel('val de polarisation', fontsize=12)
